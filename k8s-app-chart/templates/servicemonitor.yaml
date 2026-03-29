@@ -1,14 +1,14 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: {{ include "my-k8s-app-chart.fullname" . }}
+  name: {{ include "k8s-app-chart.fullname" . }}
   labels:
     # CRITICAL: Prometheus only watches ServiceMonitors with this specific release label!
     release: prometheus-stack 
 spec:
   selector:
     matchLabels:
-      {{- include "my-k8s-app-chart.selectorLabels" . | nindent 6 }}
+      {{- include "k8s-app-chart.selectorLabels" . | nindent 6 }}
   endpoints:
     - port: http
       path: /metrics
