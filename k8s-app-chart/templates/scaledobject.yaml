@@ -4,6 +4,7 @@ metadata:
   name: {{ include "k8s-app-chart.fullname" . }}-scaler
 spec:
   scaleTargetRef:
+    kind: Rollout
     name: {{ include "k8s-app-chart.fullname" . }}
   minReplicaCount: 1
   maxReplicaCount: 10
