@@ -5,6 +5,7 @@ metadata:
 spec:
   scaleTargetRef:
     kind: Rollout
+    apiVersion: argoproj.io/v1alpha1
     name: {{ include "k8s-app-chart.fullname" . }}
   minReplicaCount: 1
   maxReplicaCount: 10
