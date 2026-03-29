@@ -1,0 +1,17 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: {{ include "k8s-app-chart.fullname" . }}-scaler
+spec:
+  scaleTargetRef:
+    name: {{ include "k8s-app-chart.fullname" . }}
+  minReplicaCount: 1
+  maxReplicaCount: 10
+  triggers:
+  - type: prometheus
+    metadata:
+      # This points KEDA to the internal DNS of your Prometheus server
+      serverAddress: http://prometheus-stack-kube-prom-prometheus.monitoring.svc.cluster.local:9090
+      metricName: http_requests_total
+      threshold: '5' # Scale up if we hit 5 requests per second
+      query: sum(rate(http_requests_total[1m]))
