@@ -10,6 +10,9 @@ spec:
   {{- end }}
   strategy:
     canary:
+      analysis:
+        templates:
+        - templateName: success-rate
       steps:
       - setWeight: 20
       - pause: {duration: 1m} # Wait 1 min for us to look at it
