@@ -1,5 +1,5 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
   name: {{ include "k8s-app-chart.fullname" . }}
   labels:
@@ -8,6 +8,13 @@ spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
+  strategy:
+    canary:
+      steps:
+      - setWeight: 20
+      - pause: {duration: 1m} # Wait 1 min for us to look at it
+      - setWeight: 50
+      - pause: {duration: 1m}
   selector:
     matchLabels:
       {{- include "k8s-app-chart.selectorLabels" . | nindent 6 }}
